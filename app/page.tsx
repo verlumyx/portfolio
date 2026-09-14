@@ -1,4 +1,5 @@
 import { About } from "./components/About";
+import { Companies } from "./components/Companies";
 import { Contact } from "./components/Contact";
 import { Education } from "./components/Education";
 import { Experience } from "./components/Experience";
@@ -14,6 +15,7 @@ export default function Home() {
       <Nav />
       <main className="flex-1">
         <Hero />
+        <Companies />
         <About />
         <Experience />
         <Projects />

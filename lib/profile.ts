@@ -7,7 +7,7 @@ export const profile = {
   email: "verlumyx.tech@gmail.com",
   phone: "+58 414 846 2621",
   phoneHref: "tel:+584148462621",
-  cvUrl: "/cv-gibmyx-gomez.pdf",
+  cvUrl: "/cv_ggomez.pdf",
   social: {
     linkedin: "https://linkedin.com/in/gibmyx-gomez",
     github: "https://github.com/verlumyx",
@@ -33,8 +33,7 @@ export const experience: Experience[] = [
   {
     role: "Desarrollador Full Stack & Líder de Soporte Técnico",
     company: "Medine.tech",
-    period: "Nov 2019 — Actualidad",
-    current: true,
+    period: "Nov 2019 — Ago 2026",
     bullets: [
       "Desarrollé más de 30 módulos para un sistema ERP utilizado por más de 100 empresas, agilizando procesos operativos y facilitando el trabajo diario de los usuarios.",
       "Optimicé reportes críticos que tardaban minutos e incluso horas en generarse, reduciendo su tiempo de ejecución a segundos.",
@@ -52,6 +51,48 @@ export const experience: Experience[] = [
       "Desarrollé e implementé 2 plataformas web desde cero: AA México y Plenitud AA.",
       "Construí el backend con Laravel y el frontend con React, encargándome además del soporte y mantenimiento de ambas plataformas.",
     ],
+  },
+];
+
+export type Company = {
+  name: string;
+  role: string;
+  period: string;
+  logo: string;
+  logoBg?: string;
+  description: string;
+  url?: string;
+};
+
+export const companies: Company[] = [
+  {
+    name: "Medine.tech",
+    role: "Full Stack & Líder de Soporte",
+    period: "2019 — 2026",
+    logo: "/img/logo-medineTech.png",
+    logoBg: "bg-[#020818]",
+    description:
+      "Desarrollo de más de 30 módulos para ERP multiempresa (100+ clientes) y automatizaciones de soporte con IA (Claude + MCP).",
+    url: "https://medine.tech",
+  },
+  {
+    name: "Corefix",
+    role: "Desarrollador Full Stack",
+    period: "2023 — 2024",
+    logo: "/img/logo-corefix.png",
+    logoBg: "bg-white",
+    description:
+      "Desarrollo y mantenimiento integral de plataformas web con Laravel y React (AA México y Plenitud AA).",
+  },
+  {
+    name: "Pensanomica",
+    role: "Soporte Técnico & Desarrollo",
+    period: "Colaboración",
+    logo: "/img/logo-pensanomica.png",
+    logoBg: "bg-white",
+    description:
+      "Desarrollo de funciones en el área de soporte técnico, resolución de incidencias y soporte operativo en plataformas y servicios cloud.",
+    url: "https://pensanomica.com",
   },
 ];
 
@@ -173,6 +214,7 @@ export const softSkills = [
 ];
 
 export const navLinks = [
+  { href: "#empresas", label: "Empresas" },
   { href: "#sobre-mi", label: "Sobre mí" },
   { href: "#experiencia", label: "Experiencia" },
   { href: "#proyectos", label: "Proyectos" },
