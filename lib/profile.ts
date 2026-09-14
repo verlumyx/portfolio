@@ -96,39 +96,306 @@ export const companies: Company[] = [
   },
 ];
 
+export type TechStackItem = {
+  layer: string;
+  tech: string;
+  purpose: string;
+};
+
+export type ArchitectureDetail = {
+  summary: string;
+  diagram?: string;
+  keyPoints: string[];
+};
+
 export type Project = {
+  slug: string;
   title: string;
+  tagline: string;
   description: string;
+  status: "Completado" | "En desarrollo" | "Producción";
   tags: string[];
-  url?: string;
+  githubUrl: string;
+  secondaryGithubUrl?: { label: string; url: string };
+  liveUrl?: string;
+  architecture: ArchitectureDetail;
+  features: string[];
+  techStack: TechStackItem[];
+  creationNotes: string[];
 };
 
 export const projects: Project[] = [
   {
-    title: "Sistema ERP multiempresa",
+    slug: "chat-ia",
+    title: "chatIA",
+    tagline: "Asistente Corporativo con RAG Híbrido, Tools y WhatsApp Desacoplado",
     description:
-      "Más de 30 módulos para una plataforma ERP usada por más de 100 empresas. Reportes críticos optimizados de horas a segundos, autenticación 2FA y APIs REST que conectan Laravel con Vue.js y React.",
-    tags: ["Laravel", "Vue.js", "React", "MySQL", "APIs REST"],
+      "Asistente fullstack de inteligencia artificial que combina búsqueda semántica (RAG) sobre documentación en Markdown con consultas SQL en tiempo real mediante Function Calling / Tools tipadas con Zod. Cuenta con chat web con streaming en vivo y atención oficial por WhatsApp con arquitectura de cola asíncrona de alta concurrencia.",
+    status: "Completado",
+    tags: [
+      "Next.js (App Router)",
+      "React 19",
+      "LangChain.js",
+      "Google Gemini",
+      "Supabase",
+      "pgvector",
+      "WhatsApp Cloud API",
+      "Tailwind CSS v4",
+      "TypeScript",
+    ],
+    githubUrl: "https://github.com/verlumyx/chat-ia",
+    architecture: {
+      summary:
+        "Arquitectura híbrida de dos canales desacoplados: una interfaz web con streaming de tokens palabra por palabra, y un webhook de WhatsApp de respuesta ultra rápida (<50ms) respaldado por una cola durable en PostgreSQL con procesamiento asíncrono vía workers.",
+      diagram: `  ┌─ INGESTA OFFLINE ────────────────────────────────────────────────────────┐
+  │   data/*.md  ──▶  TextSplitter  ──▶  Gemini Embeddings (768d)  ──▶  Vector  │
+  └─────────────────────────────────────┬────────────────────────────────────┘
+                                        ▼
+                          ┌───────────────────────────┐
+                          │     Supabase Postgres     │
+                          │   - documents (pgvector)  │
+                          │   - roles / empleados     │
+                          │   - webhook_queue         │
+                          └───────────────────────────┘
+                                 ▲             ▲
+    CANAL 1: CHAT WEB            │             │      CANAL 2: WHATSAPP CLOUD API
+   ┌─────────────────────────────┴┐           ┌┴────────────────────────────────────────┐
+   │ Next.js (/api/chat)          │           │ Webhook (/api/whatsapp) ──▶ HTTP 200 OK │
+   │ ──▶ RAG + SQL Tools (Zod)    │           │ ──▶ Worker (FOR UPDATE SKIP LOCKED)     │
+   │ ──▶ Token Streaming SSE      │           │ ──▶ Despacho vía Meta Graph API v21.0   │
+   └──────────────────────────────┘           └─────────────────────────────────────────┘`,
+      keyPoints: [
+        "RAG sin alucinaciones: Búsqueda semántica con distancia coseno sobre vectores de 768 dimensiones con temperature 0 para respuestas exactas.",
+        "SQL Tools tipadas con Zod: Consultas dinámicas a base de datos relacional para empleados y roles sin exponer consultas abiertas.",
+        "Cola durable desacoplada: El webhook de WhatsApp persiste eventos en 'webhook_queue' y confirma HTTP 200 a Meta en milisegundos para evitar timeouts.",
+        "Workers concurrentes seguros: Procesamiento en segundo plano utilizando PostgreSQL 'FOR UPDATE SKIP LOCKED' para evitar condiciones de carrera.",
+        "Resiliencia Multi-Model: Fallback automático entre gemini-flash-latest, gemini-3.5-flash y gemini-3.7-flash ante límites de cuota HTTP 429.",
+        "Aislamiento de seguridad: Tablas sensibles protegidas a nivel de sistema para mitigar ataques de Prompt Injection.",
+      ],
+    },
+    features: [
+      "Búsqueda semántica de alta precisión sobre políticas, normativas y guías técnicas en Markdown.",
+      "Consultas en lenguaje natural a base de datos corporativa mediante Function Calling.",
+      "Interfaz web con streaming de tokens en tiempo real, renderizado Markdown y syntax highlighting.",
+      "Canal de mensajería empresarial en WhatsApp con verificación de webhook e idempotencia.",
+      "Cola asíncrona con política de reintentos exponenciales y Dead Letter Queue (DLQ).",
+      "Persistencia de conversaciones y sesiones con Supabase.",
+    ],
+    techStack: [
+      {
+        layer: "Frontend & Web UI",
+        tech: "Next.js (App Router) + React 19 + Tailwind CSS v4",
+        purpose: "Interfaz interactiva con streaming de respuestas en vivo y diseño responsive.",
+      },
+      {
+        layer: "Orquestación IA",
+        tech: "LangChain.js + Zod",
+        purpose: "Cadenas RAG, vector stores, prompt templates y validación estricta de Tools.",
+      },
+      {
+        layer: "Modelos LLM & Embeddings",
+        tech: "Google Gemini (flash + embedding-001)",
+        purpose: "Inferencia contextual, generación de respuestas y vectores de 768 dimensiones.",
+      },
+      {
+        layer: "Base de Datos & VectorStore",
+        tech: "Supabase (PostgreSQL + pgvector)",
+        purpose: "Almacenamiento de embeddings, tablas de negocio y cola durable de mensajería.",
+      },
+      {
+        layer: "Integración Móvil",
+        tech: "Meta WhatsApp Cloud API (Graph API v21.0)",
+        purpose: "Recepción de mensajes por webhook y despacho automatizado de respuestas.",
+      },
+    ],
+    creationNotes: [
+      "Creado para resolver el problema de soporte y onboarding interno, unificando la base de conocimiento corporativa tanto en la intranet web como en WhatsApp.",
+      "El principal reto de ingeniería fue diseñar el desacoplamiento del webhook para responder a Meta antes del umbral de timeout de 3 segundos, delegando la inferencia del LLM a un worker concurrente.",
+    ],
   },
   {
-    title: "Automatización de soporte con IA",
+    slug: "condominio",
+    title: "Condominio App",
+    tagline: "PWA para Administración, Inmuebles y Control Financiero de Condominios",
     description:
-      "Integración de Claude (Anthropic) mediante MCP con herramientas CRM para evaluar y priorizar casos de soporte automáticamente, reduciendo el tiempo de respuesta al cliente.",
-    tags: ["Claude API", "MCP", "CRM", "Laravel"],
+      "Aplicación Progresiva (PWA) diseñada para el control administrativo de condominios y edificios residenciales. Permite gestionar inmuebles (edificios, pisos, apartamentos), propietarios, registro de gastos comunes, emisión de cuotas y conciliación de pagos con cálculo de balances en tiempo real.",
+    status: "En desarrollo",
+    tags: [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Supabase (PostgreSQL)",
+      "Supabase Auth",
+      "Tailwind CSS v4",
+      "PWA (Serwist)",
+      "Server Actions",
+      "Vitest",
+    ],
+    githubUrl: "https://github.com/verlumyx/condominio",
+    architecture: {
+      summary:
+        "Arquitectura Server-Driven con Next.js 16 App Router y Supabase. Utiliza Server Components para renderizado ultraligero, Server Actions para operaciones transaccionales y Serwist como Service Worker para capacidades PWA e instalación en dispositivos móviles.",
+      diagram: `  ┌─ PWA CLIENTE (Next.js 16 + React 19 + Tailwind v4) ────────────────────┐
+  │   Instalable como PWA + Service Worker (@serwist/next)                 │
+  └───────────────────────────────────┬────────────────────────────────────┘
+                                      │ Server Actions / Server Components
+                                      ▼
+  ┌─ SERVIDOR NEXT.JS (Runtime Node) ──────────────────────────────────────┐
+  │   - Autenticación y control de sesión con Supabase Auth               │
+  │   - Validación de datos en servidor con esquemas Zod                   │
+  │   - Lógica de prorrateo, cálculo de alícuotas y estados de cuenta      │
+  └───────────────────────────────────┬────────────────────────────────────┘
+                                      │ Consultas SQL Transaccionales
+                                      ▼
+  ┌─ SUPABASE (PostgreSQL 16) ─────────────────────────────────────────────┐
+  │   - Tablas: edificios, pisos, apartamentos, propietarios               │
+  │   - Transacciones: gastos, cuotas_emision, pagos_recibos               │
+  │   - Vistas calculadas: v_saldos_apartamentos, v_historico_balances     │
+  └────────────────────────────────────────────────────────────────────────┘`,
+      keyPoints: [
+        "Arquitectura Server-First: Menor payload de JavaScript en el cliente y validaciones seguras en el servidor mediante Server Actions y Zod.",
+        "Soporte PWA Completo: Configuración con @serwist/next con Service Worker y manifiesto para uso directo como app móvil o de escritorio.",
+        "Consistencia contable en PostgreSQL: Vistas SQL especializadas para saldos y deudas, evitando desfaces de concurrencia y simplificando consultas complejas.",
+        "Autenticación segura: Flujo de inicio de sesión con Supabase Auth y cookies de sesión HttpOnly.",
+        "Suite de pruebas: Cobertura de pruebas unitarias con Vitest para validar algoritmos de cálculo de cuotas y saldos.",
+      ],
+    },
+    features: [
+      "Administración jerárquica de inmuebles: edificios, pisos, alícuotas y apartamentos.",
+      "Registro de propietarios con historial de contacto y unidades asociadas.",
+      "Carga y distribución de gastos operativos ordinarios y fondos de reserva.",
+      "Registro de pagos con soporte para comprobantes y conciliación de saldos.",
+      "Cálculo automatizado de saldos a favor, deudas y morosidad por apartamento.",
+      "Instalabilidad PWA offline-ready para acceso ágil desde teléfonos inteligentes.",
+    ],
+    techStack: [
+      {
+        layer: "Framework Fullstack",
+        tech: "Next.js 16 + React 19 + TypeScript",
+        purpose: "Renderizado en servidor, Server Actions y navegación instantánea.",
+      },
+      {
+        layer: "PWA & Offline",
+        tech: "Serwist (@serwist/next)",
+        purpose: "Service worker, caching inteligente e instalabilidad nativa PWA.",
+      },
+      {
+        layer: "Base de Datos & Auth",
+        tech: "Supabase (PostgreSQL 16) + Supabase Auth",
+        purpose: "Base de datos relacional, vistas calculadas y control de sesiones seguras.",
+      },
+      {
+        layer: "Estilos",
+        tech: "Tailwind CSS v4",
+        purpose: "Diseño moderno, adaptativo y enfocado en usabilidad táctil y móvil.",
+      },
+      {
+        layer: "Testing",
+        tech: "Vitest + Playwright",
+        purpose: "Pruebas unitarias de cálculos financieros y pruebas E2E.",
+      },
+    ],
+    creationNotes: [
+      "Nació como respuesta a la necesidad de modernizar la gestión manual en papel o Excel que muchos administradores de condominios llevan a cabo.",
+      "Se eligió una PWA para ofrecer la inmediatez de una app móvil sin los costes de publicación en tiendas de aplicaciones ni duplicación de código.",
+    ],
   },
   {
-    title: "AA México",
+    slug: "erp-ecommerce",
+    title: "ERP & eCommerce",
+    tagline: "Plataforma Modular Multiempresa y Tienda en Línea",
     description:
-      "Plataforma web construida desde cero con backend en Laravel y frontend en React. Incluye soporte y mantenimiento continuo.",
-    tags: ["Laravel", "React"],
-    url: "https://aamexico.org.mx",
-  },
-  {
-    title: "Plenitud AA",
-    description:
-      "Plataforma web desarrollada e implementada desde cero, con la misma arquitectura Laravel + React y mantenimiento posterior.",
-    tags: ["Laravel", "React"],
-    url: "https://plenitudaa.org.mx",
+      "Sistema ERP de nivel empresarial estructurado en módulos desacoplados por dominio de negocio (catálogo, inventario multi-almacén, compras, ventas y logística), integrado con una tienda en línea eCommerce. Construido con Laravel 12, Inertia.js 2 y React 19 sobre un entorno hermético en Docker.",
+    status: "En desarrollo",
+    tags: [
+      "Laravel 12",
+      "Inertia.js 2",
+      "React 19",
+      "PostgreSQL 16",
+      "Docker",
+      "Vite",
+      "TypeScript",
+      "Tailwind CSS",
+      "PHP 8.3",
+    ],
+    githubUrl: "https://github.com/verlumyx/erp",
+    secondaryGithubUrl: {
+      label: "eCommerce Storefront",
+      url: "https://github.com/verlumyx/ecommerce_erp",
+    },
+    architecture: {
+      summary:
+        "Arquitectura modular por dominios de negocio (app/Modules/*) en Laravel 12 con PostgreSQL 16. La interfaz interactiva opera como SPA mediante Inertia.js 2 y React 19 sin la fricción de endpoints REST separados, todo orquestado en Docker Compose.",
+      diagram: `  ┌─ FRONTEND SPA (Inertia.js 2 + React 19 + TypeScript) ──────────────────┐
+  │   Experiencia fluida de SPA reactiva con validación y navegación rica  │
+  └───────────────────────────────────┬────────────────────────────────────┘
+                                      │ Inertia Protocol (JSON payloads)
+                                      ▼
+  ┌─ BACKEND LARAVEL 12 (Arquitectura Modular por Dominio) ────────────────┐
+  │   app/Modules/                                                         │
+  │     ├── Company/   (Tenancy multiempresa y configuración)              │
+  │     ├── User/Role/ (RBAC, permisos granulares y auditoría)             │
+  │     ├── Catalog/   (Productos, atributos, variantes y categorías)      │
+  │     ├── Inventory/ (Multi-almacén, existencias y movimientos)          │
+  │     ├── Purchase/  (Órdenes de compra, recepción y proveedores)        │
+  │     ├── Sale/      (Presupuestos, pedidos y facturación)               │
+  │     └── Logistics/ (Despacho, empaque y seguimiento de envíos)         │
+  └───────────────────────────────────┬────────────────────────────────────┘
+                                      │ Eloquent ORM + Soft Deletes
+                                      ▼
+  ┌─ INFRAESTRUCTURA CONTENERIZADA (Docker Compose + Makefile) ────────────┐
+  │   - erp_app: PHP-FPM 8.3 + Node.js                                     │
+  │   - erp_nginx: Servidor web y reverse proxy                            │
+  │   - erp_postgres: PostgreSQL 16 con índices relacionales               │
+  │   - vite_dev: Servidor HMR en puerto dedicado para desarrollo rápido   │
+  └────────────────────────────────────────────────────────────────────────┘`,
+      keyPoints: [
+        "Modularidad por dominio (DDD): Cada módulo en 'app/Modules/<Dominio>' encapsula sus modelos, controladores, migraciones y vistas, permitiendo escalabilidad limpia.",
+        "Productividad Fullstack con Inertia.js 2: Toda la potencia del backend Laravel conectada de forma directa con componentes React 19 sin duplicar lógica de API.",
+        "Soporte Multiempresa y RBAC estricto: Aislamiento por empresa en cada sesión con control de roles y permisos granulares a nivel de función.",
+        "Inmutabilidad y política de no borrado: Uso exhaustivo de soft-deletes en operaciones transaccionales para garantizar auditoría fiscal continua.",
+        "Entorno Dockerizado y Makefile: Todo el ciclo de desarrollo se orquesta con Docker Compose y Make ('make dev', 'make watch', 'make assets').",
+      ],
+    },
+    features: [
+      "Catálogo avanzado con atributos dinámicos, variantes de producto y categorías jerárquicas.",
+      "Gestión de inventario en tiempo real con trazabilidad por almacén y movimientos de stock.",
+      "Flujo integral de compras: cotizaciones a proveedores, órdenes de compra y recepción.",
+      "Ventas y pedidos: presupuestos, confirmación de ventas y facturación.",
+      "Módulo de logística: preparación de pedidos (picking/packing) y control de despachos.",
+      "Sincronización nativa con el catálogo y pedidos del repositorio de tienda online.",
+    ],
+    techStack: [
+      {
+        layer: "Backend Framework",
+        tech: "Laravel 12 + PHP 8.3",
+        purpose: "Arquitectura modular por dominios, ORM Eloquent, migraciones y seguridad.",
+      },
+      {
+        layer: "Frontend / SPA",
+        tech: "Inertia.js 2 + React 19 + TypeScript",
+        purpose: "SPA reactiva con tipado seguro y componentes modernos sin API REST redundante.",
+      },
+      {
+        layer: "Base de Datos",
+        tech: "PostgreSQL 16",
+        purpose: "Motor relacional ACID con soporte para JSONB e índices optimizados.",
+      },
+      {
+        layer: "Contenedores & DevOps",
+        tech: "Docker + Docker Compose + Makefile",
+        purpose: "Entorno reproducible con PHP-FPM, Nginx, Postgres y Vite.",
+      },
+      {
+        layer: "Herramientas de Build",
+        tech: "Vite + Tailwind CSS",
+        purpose: "Compilación de assets con recarga rápida (HMR).",
+      },
+    ],
+    creationNotes: [
+      "Concebido como un ERP moderno y accesible para sustituir sistemas legados costosos y rígidos.",
+      "La arquitectura modular permite que una empresa habilite progresivamente únicamente los módulos que requiere, facilitando además la integración directa con eCommerce.",
+    ],
   },
 ];
 
