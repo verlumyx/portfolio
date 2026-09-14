@@ -13,7 +13,7 @@ export const profile = {
     github: "https://github.com/verlumyx",
   },
   summary:
-    "Más de 6 años construyendo y manteniendo sistemas ERP y aplicaciones web escalables con Laravel y React. He desarrollado más de 30 módulos para plataformas usadas por más de 100 empresas y optimizado procesos críticos, reduciendo tiempos de reportes de horas a segundos. Diseño APIs REST, lidero equipos de soporte técnico y automatizo procesos con IA (Claude / Anthropic y MCP). Busco aportar en equipos remotos que valoren el código limpio y el impacto real en el negocio.",
+    "Desarrollador Full Stack con más de 6 años de experiencia construyendo sistemas ERP y aplicaciones web escalables con Laravel, React, Next.js y Node.js. Destaco por mi capacidad para diseñar, mantener y optimizar plataformas de alto rendimiento orientadas a un gran volumen de usuarios, logrando reducir tiempos de procesamiento de datos críticos de horas a segundos. Especializado en integrar IA en productos reales: automatizaciones con Claude (Anthropic) y MCP, asistentes con RAG y function calling, y agentes conectados a CRMs que automatizan áreas de soporte. Busco equipos remotos que valoren el código limpio, arquitecturas sólidas (TypeScript end-to-end) y un impacto medible en el negocio.",
   highlights: [
     { value: "6+", label: "años de experiencia" },
     { value: "30+", label: "módulos ERP desarrollados" },
