@@ -115,7 +115,7 @@ export type Project = {
   description: string;
   status: "Completado" | "En desarrollo" | "Producción";
   tags: string[];
-  githubUrl: string;
+  githubUrl?: string;
   secondaryGithubUrl?: { label: string; url: string };
   liveUrl?: string;
   architecture: ArchitectureDetail;
@@ -125,6 +125,180 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    slug: "plenitud-aa",
+    title: "Plenitud AA",
+    tagline: "Plataforma Web y Panel Administrativo con Arquitectura Hexagonal",
+    description:
+      "Plataforma integral para la revista Plenitud de Alcohólicos Anónimos (AA) México. Cuenta con un portal público para usuarios y un panel administrativo avanzado. El backend está construido bajo los principios de Arquitectura Hexagonal (Clean Architecture) con Laravel, asegurando alta escalabilidad y mantenibilidad, mientras que el frontend utiliza React 18 segmentado en múltiples Single Page Applications (SPAs).",
+    status: "Producción",
+    tags: [
+      "Laravel 9",
+      "React 18",
+      "Hexagonal Architecture",
+      "Domain-Driven Design",
+      "Tailwind CSS",
+      "Vite",
+      "Redux Toolkit",
+    ],
+    liveUrl: "https://www.plenitudaa.org.mx/#inicio",
+    architecture: {
+      summary:
+        "El backend en Laravel 9 está estructurado utilizando Arquitectura Hexagonal (Domain-Driven Design), separando la lógica de negocio (Dominio) de la infraestructura y aplicación. El frontend está desacoplado en dos aplicaciones React independientes (Admin y Web) compiladas a través de Vite e integradas en vistas Blade.",
+      diagram: `  ┌─ FRONTEND (React 18 + Vite + Tailwind CSS) ────────────────────────────┐
+  │   - App Web: Portal público y navegación de usuarios                 │
+  │   - App Admin: Panel de gestión, Redux Toolkit, React Router         │
+  └───────────────────────────────────┬────────────────────────────────────┘
+                                      │ API REST / JSON
+                                      ▼
+  ┌─ BACKEND (Laravel 9 - Arquitectura Hexagonal) ─────────────────────────┐
+  │   src/                                                                 │
+  │     ├── Plenitud/   (Módulos: Gaceta, Literatura, Usuario, etc.)       │
+  │     │     ├── Contract/     (Interfaces y puertos)                     │
+  │     │     ├── Controller/   (Adaptadores de entrada HTTP)              │
+  │     │     ├── Models/       (Entidades de dominio)                     │
+  │     │     ├── Persistence/  (Repositorios y adaptadores de salida)     │
+  │     │     └── UserCase/     (Casos de uso e interactors)               │
+  │     └── Shared/     (Infraestructura compartida y Base)                │
+  └───────────────────────────────────┬────────────────────────────────────┘
+                                      │ Eloquent ORM
+                                      ▼
+  ┌─ BASE DE DATOS ────────────────────────────────────────────────────────┐
+  │   - MySQL / PostgreSQL                                                 │
+  └────────────────────────────────────────────────────────────────────────┘`,
+      keyPoints: [
+        "Arquitectura Hexagonal (Clean Architecture): Separación estricta de responsabilidades usando Contract, Controller, Models, Persistence y UserCase en el directorio 'src/'.",
+        "Frontend Desacoplado: Múltiples entry points de React (AdminApp y WebApp) orquestados por Vite e integrados en Laravel.",
+        "Manejo de Estado Centralizado: Uso de Redux Toolkit en el panel de administración para el flujo complejo de datos.",
+        "Patrón Repositorio: Abstracción de la capa de persistencia de datos mediante repositorios e interfaces en la capa Contract.",
+        "Escalabilidad Modular: Los módulos de negocio (Gaceta, Literatura, ExperienciaDiaria) están completamente aislados y son fácilmente extensibles.",
+      ],
+    },
+    features: [
+      "Portal público interactivo para acceder a literatura, gacetas e información general de AA México.",
+      "Panel de administración seguro con control de acceso y gestión de contenido.",
+      "Gestión de usuarios, planes de acción y productos especiales.",
+      "Soporte para múltiples Single Page Applications (SPAs) dentro de un solo monolito estructurado.",
+      "Integración de animaciones y sliders interactivos con Swiper.",
+    ],
+    techStack: [
+      {
+        layer: "Backend Framework",
+        tech: "Laravel 9 + PHP",
+        purpose: "Orquestación del backend, enrutamiento, seguridad e inyección de dependencias.",
+      },
+      {
+        layer: "Arquitectura",
+        tech: "Hexagonal Architecture",
+        purpose: "Organización modular del código en Contract, Persistence y UserCases para máxima mantenibilidad.",
+      },
+      {
+        layer: "Frontend / SPAs",
+        tech: "React 18 + React Router",
+        purpose: "Desarrollo de interfaces dinámicas e interactivas segmentadas para Web y Admin.",
+      },
+      {
+        layer: "Estilos & UI",
+        tech: "Tailwind CSS + Headless UI",
+        purpose: "Diseño responsivo, utilitario y componentes accesibles.",
+      },
+      {
+        layer: "Estado global",
+        tech: "Redux Toolkit",
+        purpose: "Manejo centralizado del estado para la aplicación administrativa.",
+      },
+    ],
+    creationNotes: [
+      "Se optó por Arquitectura Hexagonal en el backend para domar la complejidad de negocio y facilitar futuras integraciones.",
+      "El frontend se dividió en aplicaciones React separadas para mantener el portal público ligero y reservar el peso de Redux Toolkit solo para el panel de administración.",
+    ],
+  },
+  {
+    slug: "aa-mexico",
+    title: "AA México",
+    tagline: "Plataforma Nacional de Gestión de Grupos y Oficinas",
+    description:
+      "Sistema a nivel nacional para Alcohólicos Anónimos (AA) México, diseñado para la administración integral de todos los grupos de ayuda, oficinas, distritos y estados en el país. Utiliza Arquitectura Hexagonal en el backend para manejar la compleja estructura organizativa y SPAs en React para interfaces fluidas.",
+    status: "Producción",
+    tags: [
+      "Laravel 9",
+      "React 18",
+      "Hexagonal Architecture",
+      "Domain-Driven Design",
+      "Tailwind CSS",
+      "Vite",
+      "Redux Toolkit",
+    ],
+    liveUrl: "https://www.aamexico.org.mx/",
+    architecture: {
+      summary:
+        "Backend estructurado con Arquitectura Hexagonal (Domain-Driven Design) en Laravel, y un frontend dividido en aplicaciones React independientes para el portal público y el panel administrativo.",
+      diagram: `  ┌─ FRONTEND (React 18 + Vite + Tailwind CSS) ────────────────────────────┐
+  │   - App Web: Buscador de grupos, directorios y portal público        │
+  │   - App Admin: Gestión jerárquica con Redux Toolkit y React Router   │
+  └───────────────────────────────────┬────────────────────────────────────┘
+                                      │ API REST / JSON
+                                      ▼
+  ┌─ BACKEND (Laravel 9 - Arquitectura Hexagonal) ─────────────────────────┐
+  │   src/                                                                 │
+  │     ├── AAMexico/   (Módulos: Grupos, Estado, Oficinas, Distritos)     │
+  │     │     ├── Contract/     (Interfaces y puertos)                     │
+  │     │     ├── Controller/   (Adaptadores de entrada HTTP)              │
+  │     │     ├── Models/       (Entidades de dominio)                     │
+  │     │     ├── Persistence/  (Repositorios y adaptadores de salida)     │
+  │     │     └── UserCase/     (Casos de uso e interactors)               │
+  │     └── Shared/     (Infraestructura compartida y Base)                │
+  └───────────────────────────────────┬────────────────────────────────────┘
+                                      │ Eloquent ORM
+                                      ▼
+  ┌─ BASE DE DATOS ────────────────────────────────────────────────────────┐
+  │   - MySQL / PostgreSQL con estructura relacional geográfica            │
+  └────────────────────────────────────────────────────────────────────────┘`,
+      keyPoints: [
+        "Arquitectura Hexagonal (Clean Architecture): Separación estricta de las reglas de negocio de la infraestructura organizativa.",
+        "Módulos de Dominio Jerárquicos: Aislamiento total de los dominios (Estado, Distrito, Oficina, Grupo) en la capa de negocio.",
+        "Frontend Desacoplado: Micro-SPAs en React orquestadas por Vite.",
+        "Manejo de Estado Centralizado: Uso de Redux Toolkit para gestionar el árbol de datos geográficos y organizativos en el panel admin.",
+      ],
+    },
+    features: [
+      "Buscador nacional y geolocalizado de grupos de ayuda y oficinas de AA.",
+      "Panel de administración complejo para la gestión jerárquica: Estados > Distritos > Oficinas > Grupos.",
+      "Control de acceso y roles para administradores a distintos niveles geográficos.",
+      "Manejo avanzado de estado global en frontend para la carga dinámica de zonas y grupos.",
+    ],
+    techStack: [
+      {
+        layer: "Backend Framework",
+        tech: "Laravel 9 + PHP",
+        purpose: "Orquestación, seguridad e inyección de dependencias con separación de capas.",
+      },
+      {
+        layer: "Arquitectura",
+        tech: "Hexagonal Architecture",
+        purpose: "Mantenibilidad extrema en la lógica de negocio jerárquica (DDD).",
+      },
+      {
+        layer: "Frontend / SPAs",
+        tech: "React 18 + React Router",
+        purpose: "Interfaces reactivas para la búsqueda y gestión de grupos.",
+      },
+      {
+        layer: "Estilos & UI",
+        tech: "Tailwind CSS + Headless UI",
+        purpose: "Diseño limpio y responsivo para el directorio nacional.",
+      },
+      {
+        layer: "Estado global",
+        tech: "Redux Toolkit",
+        purpose: "Flujo predecible de datos para la compleja jerarquía de distritos y grupos.",
+      },
+    ],
+    creationNotes: [
+      "El principal reto fue modelar la jerarquía organizativa real de AA (Estados, Distritos, Oficinas y Grupos) en una estructura de base de datos eficiente y rápida de consultar.",
+      "La Arquitectura Hexagonal demostró ser invaluable para escalar y mantener el código ordenado a medida que las reglas de negocio para la creación y gestión de grupos se volvían más estrictas.",
+    ],
+  },
   {
     slug: "chat-ia",
     title: "chatIA",
