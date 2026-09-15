@@ -318,6 +318,7 @@ export const projects: Project[] = [
       "TypeScript",
     ],
     githubUrl: "https://github.com/verlumyx/chat-ia",
+    liveUrl: "https://chat-ia-a85u.vercel.app/",
     architecture: {
       summary:
         "Arquitectura híbrida de dos canales desacoplados: una interfaz web con streaming de tokens palabra por palabra, y un webhook de WhatsApp de respuesta ultra rápida (<50ms) respaldado por una cola durable en PostgreSQL con procesamiento asíncrono vía workers.",
