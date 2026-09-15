@@ -37,7 +37,7 @@ export function Hero() {
         </p>
 
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted">
-          Desarrollador Full Stack con más de 6 años de experiencia construyendo sistemas ERP y aplicaciones web escalables con Laravel, React, Next.js y Node.js. Destaco por mi capacidad para diseñar, mantener y optimizar plataformas de alto rendimiento orientadas a un gran volumen de usuarios, logrando reducir tiempos de procesamiento de datos críticos de horas a segundos. Especializado en integrar IA en productos reales: automatizaciones con Claude (Anthropic) y MCP, asistentes con RAG y function calling, y agentes conectados a CRMs que automatizan áreas de soporte. Busco equipos remotos que valoren el código limpio, arquitecturas sólidas (TypeScript end-to-end) y un impacto medible en el negocio.
+          Desarrollador Full Stack con más de 6 años de experiencia construyendo aplicaciones web escalables con Laravel, React, Next.js y Node.js, integrando soluciones de Inteligencia Artificial en productos reales.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-3">
