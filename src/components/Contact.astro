@@ -1,0 +1,77 @@
+---
+import { profile } from "@/lib/profile";
+import Icon from "./Icon.astro";
+import Section from "./Section.astro";
+
+type ContactItem = {
+  label: string;
+  value: string;
+  href: string;
+  iconName: "mail" | "phone" | "linkedin" | "github";
+  external?: boolean;
+};
+
+const links: ContactItem[] = [
+  {
+    label: "Email",
+    value: profile.email,
+    href: `mailto:${profile.email}`,
+    iconName: "mail",
+  },
+  {
+    label: "Teléfono",
+    value: profile.phone,
+    href: profile.phoneHref,
+    iconName: "phone",
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/gibmyx-gomez",
+    href: profile.social.linkedin,
+    iconName: "linkedin",
+    external: true,
+  },
+  {
+    label: "GitHub",
+    value: "github.com/verlumyx",
+    href: profile.social.github,
+    iconName: "github",
+    external: true,
+  },
+];
+---
+
+<Section id="contacto" eyebrow="06 — Contacto" title="Hablemos">
+  <div class="grid gap-12 md:grid-cols-5">
+    <div class="md:col-span-2">
+      <p class="text-lg leading-relaxed text-muted">
+        ¿Tienes un proyecto o una vacante remota? Escríbeme y te respondo
+        lo antes posible.
+      </p>
+      <a
+        href={`mailto:${profile.email}`}
+        class="mt-8 inline-flex h-11 items-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
+      >
+        Enviar correo
+        <Icon name="arrow-up-right" />
+      </a>
+    </div>
+    <ul class="divide-y divide-border border-y border-border md:col-span-3">
+      {links.map(({ label, value, href, iconName, external }) => (
+        <li>
+          <a
+            href={href}
+            target={external ? "_blank" : undefined}
+            rel={external ? "noopener noreferrer" : undefined}
+            class="group flex items-center gap-4 py-4 transition-colors hover:text-accent"
+          >
+            <Icon name={iconName} class="text-subtle transition-colors group-hover:text-accent" />
+            <span class="w-24 text-sm text-subtle">{label}</span>
+            <span class="flex-1 break-all text-[15px]">{value}</span>
+            <Icon name="arrow-up-right" class="text-subtle opacity-0 transition-opacity group-hover:opacity-100" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>

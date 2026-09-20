@@ -1,0 +1,22 @@
+# Gibmyx Gomez - Portfolio & Profile
+
+> Desarrollador Full Stack con más de 6 años de experiencia construyendo sistemas ERP y aplicaciones web escalables con Laravel, React, Next.js, Astro y Node.js. Especializado en integración de soluciones de Inteligencia Artificial (Claude, MCP, RAG, function calling).
+
+## Datos de Contacto y Enlaces
+- Ubicación: Carúpano, Sucre, Venezuela (Disponible para trabajo remoto)
+- Email: verlumyx.tech@gmail.com
+- Teléfono: +58 414 846 2621
+- GitHub: https://github.com/verlumyx
+- LinkedIn: https://linkedin.com/in/gibmyx-gomez
+
+## Experiencia Clave
+- **Medine.tech** (2019 - 2026): Desarrollador Full Stack & Líder de Soporte Técnico. +30 módulos ERP desarrollados para +100 empresas, optimización de reportes de horas a segundos, automatización con Claude + MCP para soporte técnico.
+- **Corefix** (2023 - 2024): Desarrollador Full Stack (AA México y Plenitud AA con Laravel y React).
+- **Pensanomica**: Soporte técnico y desarrollo de servicios cloud.
+
+## Stack Técnico
+- **Backend**: Laravel, PHP, Node.js, Express, REST APIs, Python
+- **Frontend**: Astro, React, Next.js, Vue.js, TypeScript, Tailwind CSS, HTML5, CSS3
+- **Bases de datos**: MySQL, PostgreSQL, Redis, MongoDB
+- **Inteligencia Artificial**: Anthropic Claude API, Model Context Protocol (MCP), LLM Tool Calling, RAG
+- **DevOps & Herramientas**: Git, Docker, Linux, CI/CD, Nginx

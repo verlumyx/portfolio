@@ -1,0 +1,37 @@
+---
+import { experience } from "@/lib/profile";
+import Section from "./Section.astro";
+---
+
+<Section id="experiencia" eyebrow="02 — Experiencia" title="Trayectoria">
+  <ol class="relative border-l border-border">
+    {experience.map((job) => (
+      <li class="pb-14 pl-8 last:pb-0 md:pl-12">
+        <span
+          class={`absolute -left-[5px] mt-2 h-[9px] w-[9px] rounded-full ${
+            job.current ? "bg-accent" : "bg-border"
+          }`}
+        ></span>
+        <div class="flex flex-col gap-1 md:flex-row md:items-baseline md:justify-between">
+          <div>
+            <h3 class="text-xl font-semibold tracking-tight">
+              {job.role}
+            </h3>
+            <p class="mt-1 text-accent">{job.company}</p>
+          </div>
+          <p class="font-mono text-xs uppercase tracking-wider text-subtle">
+            {job.period}
+          </p>
+        </div>
+        <ul class="mt-6 space-y-3">
+          {job.bullets.map((b) => (
+            <li class="flex gap-3 text-[15px] leading-relaxed text-muted">
+              <span class="mt-[11px] h-px w-3 shrink-0 bg-accent"></span>
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+      </li>
+    ))}
+  </ol>
+</Section>

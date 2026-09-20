@@ -1,0 +1,93 @@
+---
+import "@fontsource/geist-sans";
+import "@fontsource/geist-mono";
+import "@/styles/globals.css";
+import { profile } from "@/lib/profile";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogType?: "website" | "article";
+  image?: string;
+}
+
+const defaultTitle = `${profile.name} — ${profile.role}`;
+const defaultDescription = `${profile.role} especializado en ${profile.stack}. Más de 6 años creando ERPs y aplicaciones web escalables con IA.`;
+
+const {
+  title = defaultTitle,
+  description = defaultDescription,
+  ogType = "website",
+  image = "/favicon.ico",
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL("https://verlumyx.dev");
+const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
+const ogImageUrl = new URL(image, siteUrl).toString();
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: profile.name,
+  jobTitle: profile.role,
+  description: profile.summary,
+  url: canonicalURL,
+  sameAs: [profile.social.github, profile.social.linkedin],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Carúpano",
+    addressRegion: "Sucre",
+    addressCountry: "VE",
+  },
+};
+---
+
+<!doctype html>
+<html lang="es" class="h-full antialiased">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={profile.name} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.ico" />
+
+    <!-- Pre-render theme script to avoid FOUC -->
+    <script is:inline>
+      (function () {
+        try {
+          const t = localStorage.getItem("theme");
+          const dark =
+            t === "dark" ||
+            (!t && window.matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) document.documentElement.classList.add("dark");
+        } catch {}
+      })();
+    </script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  </head>
+  <body class="min-h-full flex flex-col bg-background text-foreground">
+    <slot />
+  </body>
+</html>

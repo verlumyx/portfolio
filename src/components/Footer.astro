@@ -1,0 +1,16 @@
+---
+import { profile } from "@/lib/profile";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-border">
+  <div class="mx-auto flex w-full max-w-5xl flex-col gap-2 px-6 py-8 text-sm text-subtle md:flex-row md:items-center md:justify-between">
+    <p>
+      © {currentYear} {profile.name}
+    </p>
+    <p class="font-mono text-xs">
+      Hecho con Astro y Tailwind CSS
+    </p>
+  </div>
+</footer>

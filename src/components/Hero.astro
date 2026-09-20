@@ -1,0 +1,80 @@
+---
+import { profile } from "@/lib/profile";
+import Icon from "./Icon.astro";
+---
+
+<section
+  id="inicio"
+  class="relative flex min-h-svh items-center overflow-hidden pt-16"
+>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,var(--accent-soft),transparent_55%)] opacity-70"
+  ></div>
+  <div class="mx-auto w-full max-w-5xl px-6 py-24">
+    <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-border px-3 py-1 text-xs text-muted">
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+      </span>
+      {profile.availability}
+    </div>
+
+    <h1 class="max-w-3xl text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
+      {profile.name}
+    </h1>
+    <p class="mt-5 text-2xl font-medium tracking-tight text-muted md:text-3xl">
+      {profile.role}{" "}
+      <span class="text-foreground">
+        · <span class="text-accent">{profile.stack}</span>
+      </span>
+    </p>
+
+    <p class="mt-8 max-w-2xl text-lg leading-relaxed text-muted">
+      Desarrollador Full Stack con más de 6 años de experiencia construyendo aplicaciones web escalables con Laravel, React, Next.js y Node.js, integrando soluciones de Inteligencia Artificial en productos reales.
+    </p>
+
+    <div class="mt-10 flex flex-wrap items-center gap-3">
+      <a
+        href="#contacto"
+        class="inline-flex h-11 items-center gap-2 rounded-full bg-accent px-6 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
+      >
+        Hablemos
+        <Icon name="arrow-up-right" />
+      </a>
+      <a
+        href={profile.cvUrl}
+        download
+        class="inline-flex h-11 items-center gap-2 rounded-full border border-border px-6 text-sm font-medium transition-colors hover:border-foreground"
+      >
+        <Icon name="download" />
+        Descargar CV
+      </a>
+      <div class="ml-1 flex items-center gap-1">
+        <a
+          href={profile.social.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Perfil de GitHub"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full text-muted transition-colors hover:text-accent"
+        >
+          <Icon name="github" />
+        </a>
+        <a
+          href={profile.social.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Perfil de LinkedIn"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-full text-muted transition-colors hover:text-accent"
+        >
+          <Icon name="linkedin" />
+        </a>
+      </div>
+    </div>
+
+    <p class="mt-12 inline-flex items-center gap-2 text-sm text-subtle">
+      <Icon name="map-pin" class="text-accent" />
+      {profile.location}
+    </p>
+  </div>
+</section>

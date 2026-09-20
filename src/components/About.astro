@@ -1,0 +1,35 @@
+---
+import { profile, softSkills } from "@/lib/profile";
+import Section from "./Section.astro";
+---
+
+<Section id="sobre-mi" eyebrow="01 — Sobre mí" title="Perfil profesional">
+  <div class="grid gap-12 md:grid-cols-5">
+    <p class="text-lg leading-relaxed text-muted md:col-span-3">
+      {profile.summary}
+    </p>
+    <div class="md:col-span-2">
+      <dl class="grid grid-cols-3 gap-4 md:grid-cols-1 md:gap-0 md:divide-y md:divide-border">
+        {profile.highlights.map((h) => (
+          <div class="md:flex md:items-baseline md:gap-4 md:py-4">
+            <dt class="text-3xl font-semibold tracking-tight text-accent md:w-20">
+              {h.value}
+            </dt>
+            <dd class="mt-1 text-sm text-muted md:mt-0">{h.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+
+  <div class="mt-14">
+    <p class="mb-4 text-sm font-medium">Habilidades blandas</p>
+    <ul class="flex flex-wrap gap-2">
+      {softSkills.map((s) => (
+        <li class="rounded-full border border-border px-3 py-1 text-sm text-muted">
+          {s}
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
