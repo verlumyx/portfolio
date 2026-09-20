@@ -113,6 +113,8 @@ export type Project = {
   title: string;
   tagline: string;
   description: string;
+  metaDescription?: string;
+  image?: string;
   status: "Completado" | "En desarrollo" | "Producción";
   tags: string[];
   githubUrl?: string;
@@ -131,6 +133,9 @@ export const projects: Project[] = [
     tagline: "Plataforma Web y Panel Administrativo con Arquitectura Hexagonal",
     description:
       "Plataforma integral para la revista Plenitud de Alcohólicos Anónimos (AA) México. Cuenta con un portal público para usuarios y un panel administrativo avanzado. El backend está construido bajo los principios de Arquitectura Hexagonal (Clean Architecture) con Laravel, asegurando alta escalabilidad y mantenibilidad, mientras que el frontend utiliza React 18 segmentado en múltiples Single Page Applications (SPAs).",
+    metaDescription:
+      "Plenitud AA — Plataforma integral para la revista Plenitud de Alcohólicos Anónimos (AA) México con arquitectura hexagonal en Laravel y SPAs en React 18.",
+    image: "/img/plenitudaa.png",
     status: "Producción",
     tags: [
       "Laravel 9",
@@ -219,6 +224,9 @@ export const projects: Project[] = [
     tagline: "Plataforma Nacional de Gestión de Grupos y Oficinas",
     description:
       "Sistema a nivel nacional para Alcohólicos Anónimos (AA) México, diseñado para la administración integral de todos los grupos de ayuda, oficinas, distritos y estados en el país. Utiliza Arquitectura Hexagonal en el backend para manejar la compleja estructura organizativa y SPAs en React para interfaces fluidas.",
+    metaDescription:
+      "AA México — Sistema nacional de gestión de grupos y oficinas para Alcohólicos Anónimos México con arquitectura hexagonal en backend y SPAs en React 18.",
+    image: "/img/aamexico.png",
     status: "Producción",
     tags: [
       "Laravel 9",
@@ -305,6 +313,8 @@ export const projects: Project[] = [
     tagline: "Asistente Corporativo con RAG Híbrido, Tools y WhatsApp Desacoplado",
     description:
       "Asistente fullstack de inteligencia artificial que combina búsqueda semántica (RAG) sobre documentación en Markdown con consultas SQL en tiempo real mediante Function Calling / Tools tipadas con Zod. Cuenta con chat web con streaming en vivo y atención oficial por WhatsApp con arquitectura de cola asíncrona de alta concurrencia.",
+    metaDescription:
+      "chatIA — Asistente corporativo con RAG híbrido sobre Markdown, tools con Zod y consultas SQL en tiempo real con streaming y atención por WhatsApp asíncrono.",
     status: "Completado",
     tags: [
       "Next.js (App Router)",
@@ -394,6 +404,8 @@ export const projects: Project[] = [
     tagline: "PWA para Administración, Inmuebles y Control Financiero de Condominios",
     description:
       "Aplicación Progresiva (PWA) diseñada para el control administrativo de condominios y edificios residenciales. Permite gestionar inmuebles (edificios, pisos, apartamentos), propietarios, registro de gastos comunes, emisión de cuotas y conciliación de pagos con cálculo de balances en tiempo real.",
+    metaDescription:
+      "Condominio App — PWA para administración, control de inmuebles y finanzas de condominios construida con Next.js, Supabase, PostgreSQL y diseño responsivo.",
     status: "En desarrollo",
     tags: [
       "Next.js 16",
@@ -481,6 +493,8 @@ export const projects: Project[] = [
     tagline: "Plataforma Modular Multiempresa y Tienda en Línea",
     description:
       "Sistema ERP de nivel empresarial estructurado en módulos desacoplados por dominio de negocio (catálogo, inventario multi-almacén, compras, ventas y logística), integrado con una tienda en línea eCommerce. Construido con Laravel 12, Inertia.js 2 y React 19 sobre un entorno hermético en Docker.",
+    metaDescription:
+      "ERP & eCommerce — Plataforma ERP modular multiempresa y tienda online integrada con Laravel 12, Inertia.js 2, React 19 y base de datos PostgreSQL en Docker.",
     status: "En desarrollo",
     tags: [
       "Laravel 12",

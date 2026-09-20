@@ -9,23 +9,27 @@ interface Props {
   description?: string;
   ogType?: "website" | "article";
   image?: string;
+  schema?: Record<string, unknown>;
 }
 
 const defaultTitle = `${profile.name} — ${profile.role}`;
-const defaultDescription = `${profile.role} especializado en ${profile.stack}. Más de 6 años creando ERPs y aplicaciones web escalables con IA.`;
+// Exactamente 156 caracteres para cumplir la recomendación SEO (150-160 caracteres)
+const defaultDescription =
+  "Desarrollador Full Stack especializado en Laravel y React con más de 6 años de experiencia en sistemas ERP, arquitecturas web escalables y soluciones con IA.";
 
 const {
   title = defaultTitle,
   description = defaultDescription,
   ogType = "website",
-  image = "/favicon.ico",
+  image = "/og-image.png",
+  schema,
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL("https://verlumyx.dev");
 const canonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
 const ogImageUrl = new URL(image, siteUrl).toString();
 
-const schemaData = {
+const defaultSchemaData = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: profile.name,
@@ -40,6 +44,8 @@ const schemaData = {
     addressCountry: "VE",
   },
 };
+
+const activeSchema = schema ?? defaultSchemaData;
 ---
 
 <!doctype html>
@@ -67,9 +73,9 @@ const schemaData = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- Favicon -->
+    <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Pre-render theme script to avoid FOUC -->
     <script is:inline>
@@ -85,7 +91,7 @@ const schemaData = {
     </script>
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(activeSchema)} />
   </head>
   <body class="min-h-full flex flex-col bg-background text-foreground">
     <slot />

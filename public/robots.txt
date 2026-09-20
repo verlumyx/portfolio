@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# Resumen para Agentes de IA y LLMs
+# https://verlumyx.dev/llms.txt
+
 Sitemap: https://verlumyx.dev/sitemap-index.xml

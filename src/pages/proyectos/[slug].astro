@@ -13,12 +13,31 @@ export function getStaticPaths() {
 
 const { project } = Astro.props;
 const currentYear = new Date().getFullYear();
+
+const siteUrl = Astro.site ?? new URL("https://verlumyx.dev");
+const projectCanonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
+
+const projectSchema = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  headline: `${project.title} — ${project.tagline}`,
+  description: project.description,
+  url: projectCanonicalURL,
+  author: {
+    "@type": "Person",
+    name: profile.name,
+    url: siteUrl.toString(),
+  },
+  keywords: project.tags.join(", "),
+};
 ---
 
 <Layout
   title={`${project.title} — Arquitectura y Detalles | ${profile.name}`}
-  description={project.description}
+  description={project.metaDescription ?? project.description}
   ogType="article"
+  image={project.image ?? "/og-image.png"}
+  schema={projectSchema}
 >
   <div class="min-h-screen bg-background text-foreground">
     {/* Top navigation */}
