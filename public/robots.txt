@@ -2,6 +2,6 @@ User-agent: *
 Allow: /
 
 # Resumen para Agentes de IA y LLMs
-# https://verlumyx.dev/llms.txt
+# https://www.ggomez.website/llms.txt
 
-Sitemap: https://verlumyx.dev/sitemap-index.xml
+Sitemap: https://www.ggomez.website/sitemap-index.xml

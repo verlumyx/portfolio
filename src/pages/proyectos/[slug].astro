@@ -14,7 +14,7 @@ export function getStaticPaths() {
 const { project } = Astro.props;
 const currentYear = new Date().getFullYear();
 
-const siteUrl = Astro.site ?? new URL("https://verlumyx.dev");
+const siteUrl = Astro.site ?? new URL("https://www.ggomez.website");
 const projectCanonicalURL = new URL(Astro.url.pathname, siteUrl).toString();
 
 const projectSchema = {
