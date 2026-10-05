@@ -7,7 +7,10 @@ export const profile = {
   email: "verlumyx.tech@gmail.com",
   phone: "+58 414 846 2621",
   phoneHref: "tel:+584148462621",
-  cvUrl: "/cv_ggomez.pdf",
+  cvUrl: {
+    es: "/CV_GGOMEZ_SP.pdf",
+    en: "/CV_GGOMEZ.pdf",
+  },
   social: {
     linkedin: "https://linkedin.com/in/gibmyx-gomez",
     github: "https://github.com/verlumyx",
@@ -589,28 +592,50 @@ export const projects: Project[] = [
 ];
 
 export const skills: { category: string; items: string[] }[] = [
-  { category: "Lenguajes", items: ["PHP", "JavaScript", "TypeScript"] },
   {
-    category: "Frameworks",
-    items: ["Laravel", "Livewire", "Inertia.js", "React", "Vue.js"],
+    category: "Lenguajes",
+    items: ["TypeScript", "JavaScript", "PHP", "Python", "SQL"],
   },
-  { category: "Bases de datos", items: ["MySQL", "MariaDB"] },
   {
-    category: "DevOps & Herramientas",
-    items: ["Docker", "Git", "CI/CD", "Linux", "AWS", "DigitalOcean"],
+    category: "Móvil / Multiplataforma",
+    items: ["React Native"],
+  },
+  {
+    category: "Frontend",
+    items: ["React", "Next.js", "Vue.js", "Livewire", "Django", "Inertia.js", "Tailwind CSS"],
+  },
+  {
+    category: "Backend",
+    items: ["Laravel", "Node.js", "APIs REST"],
   },
   {
     category: "IA & Automatización",
     items: [
-      "Claude / Anthropic API",
-      "MCP (Model Context Protocol)",
-      "Integración con CRMs",
+      "Claude API",
+      "MCP",
       "Claude Code",
+      "LangChain.js",
+      "RAG con pgvector",
+      "function calling / tools",
+      "integración con CRMs",
+      "WhatsApp Cloud API",
     ],
   },
   {
-    category: "Otros",
-    items: ["APIs REST", "Testing (PHPUnit / Pest)", "Colas / Queues"],
+    category: "Bases de datos",
+    items: ["MySQL", "MariaDB", "PostgreSQL", "Supabase"],
+  },
+  {
+    category: "DevOps & Herramientas",
+    items: ["Docker", "Git", "CI/CD", "Linux", "AWS", "GCP", "DigitalOcean", "Vercel"],
+  },
+  {
+    category: "Testing",
+    items: ["PHPUnit / Pest", "Vitest", "Playwright"],
+  },
+  {
+    category: "Arquitectura & Buenas Prácticas",
+    items: ["Arquitectura Hexagonal", "Clean Code", "Principios SOLID", "Patrones de Diseño", "TDD"],
   },
 ];
 

@@ -31,9 +31,7 @@ import Icon from "./Icon.astro";
     </p>
 
     <p class="mt-8 max-w-2xl text-lg leading-relaxed text-muted">
-      Desarrollador Full Stack con más de 6 años de experiencia construyendo aplicaciones web escalables con Laravel, React, Next.js y Node.js, integrando soluciones de Inteligencia Artificial en productos reales.
-    </p>
-
+        Desarrollador Full Stack con 6+ años de experiencia en sistemas ERP y aplicaciones web escalables. Especializado en integrar IA en productos reales (Claude, MCP, RAG). Busco equipos remotos que valoren arquitecturas sólidas y un impacto medible en el negocio.    </p>
     <div class="mt-10 flex flex-wrap items-center gap-3">
       <a
         href="#contacto"
@@ -43,12 +41,20 @@ import Icon from "./Icon.astro";
         <Icon name="arrow-up-right" />
       </a>
       <a
-        href={profile.cvUrl}
+        href={profile.cvUrl.es}
         download
         class="inline-flex h-11 items-center gap-2 rounded-full border border-border px-6 text-sm font-medium transition-colors hover:border-foreground"
       >
         <Icon name="download" />
-        Descargar CV
+        CV (ES)
+      </a>
+      <a
+        href={profile.cvUrl.en}
+        download
+        class="inline-flex h-11 items-center gap-2 rounded-full border border-border px-6 text-sm font-medium transition-colors hover:border-foreground"
+      >
+        <Icon name="download" />
+        CV (EN)
       </a>
       <div class="ml-1 flex items-center gap-1">
         <a
