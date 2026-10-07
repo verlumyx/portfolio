@@ -311,6 +311,124 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: "symfony-microservices-ddd",
+    title: "Symfony Event-Driven API",
+    tagline: "Procesamiento Asíncrono de Pedidos con RabbitMQ, Redis y Arquitectura Hexagonal",
+    description:
+      "API RESTful empresarial de alto rendimiento orientada a eventos para el procesamiento asíncrono de pedidos y órdenes. Implementa mensajería asíncrona desacoplada con RabbitMQ (AMQP Topic Exchanges y colas con DLQ para tolerancia a fallos), control de idempotencia y locks distribuidos con Redis para prevenir compras duplicadas o condiciones de carrera, y caché de consulta ultrarrápida (<1ms con cabeceras X-Cache: HIT/MISS). El núcleo de dominio aplica Arquitectura Hexagonal y Domain-Driven Design (DDD) puro en PHP 8.3 FPM, persistido en PostgreSQL 16 con soporte para búsqueda vectorial vía pgvector y orquestado en Docker Compose con un worker dedicado en segundo plano.",
+    metaDescription:
+      "API REST con Symfony 7.4, RabbitMQ y Redis aplicando Arquitectura Hexagonal y DDD para procesamiento asíncrono de órdenes con locks distribuidos en Docker.",
+    status: "Completado",
+    tags: [
+      "RabbitMQ",
+      "Redis",
+      "Symfony 7.4",
+      "Arquitectura Hexagonal",
+      "PHP 8.3",
+      "Domain-Driven Design",
+      "PostgreSQL (pgvector)",
+      "Docker Compose",
+      "API Platform",
+      "Event-Driven",
+    ],
+    githubUrl: "https://github.com/verlumyx/symfony-microservices-ddd",
+    architecture: {
+      summary:
+        "Arquitectura en capas concéntricas (Domain, Application e Infrastructure) bajo Arquitectura Hexagonal y DDD. Las solicitudes HTTP de creación de pedidos son validadas con claves de idempotencia y locks distribuidos en Redis, registradas con estado inicial PENDING y despachadas de inmediato (<15ms) a RabbitMQ. Un worker dedicado en segundo plano consume los eventos AMQP de forma asíncrona para ejecutar la lógica de facturación y notificaciones, mientras que las consultas de estado se resuelven en memoria en Redis en <1ms.",
+      diagram: `  ┌─ CLIENTE / FRONTEND ────────────────────────────────────────────────────────┐
+  │   POST /api/orders (X-Idempotency-Key)  │  GET /api/orders/{id}/status       │
+  └────────────────────────┬───────────────────────────────────▲────────────────┘
+                           │                                   │ X-Cache: HIT (<1ms)
+                           ▼                                   │
+  ┌─ SYMFONY 7.4 API (Arquitectura Hexagonal / DDD) ───────────┴────────────────┐
+  │   src/Modules/Order/                                                        │
+  │     ├── Domain/          (Entidad Order, OrderStatus Enum, Repository)      │
+  │     ├── Application/     (CreateOrderUseCase, GetOrderStatusUseCase, DTOs) │
+  │     └── Infrastructure/  (Controllers, Repositories, Messenger Publisher)   │
+  └──────────┬─────────────────────────────┬───────────────────▲────────────────┘
+             │ 1. Lock & Idempotencia      │ 2. Mensaje AMQP   │ Cache Miss
+             ▼                             ▼                   │
+  ┌─ REDIS 7 (In-Memory) ┐    ┌─ RABBITMQ 3.13 (AMQP Broker) ─┐│
+  │ - Locks distribuidos │    │  orders_exchange (Topic)      ││
+  │ - Claves idempotencia│    │    ├── order_processing Queue ││
+  │ - Caché status <1ms  │    │    └── dead_letter_orders DLQ ││
+  └──────────────────────┘    └────────────┬──────────────────┘│
+                                           │                   │
+                                           ▼                   │
+                              ┌─ BACKGROUND WORKER CONTAINER ──┤
+                              │  bin/console messenger:consume │
+                              │  - Procesa orden y validación  │
+                              │  - Actualiza estado en Redis ──┘
+                              │  - Despacha SendNotification   │
+                              └────────────┬───────────────────┘
+                                           │ Persistencia ACID
+                                           ▼
+  ┌─ BASE DE DATOS TRANSACCIONAL ──────────────────────────────────────────────┐
+  │   - PostgreSQL 16 con extensión pgvector (búsqueda semántica)              │
+  └────────────────────────────────────────────────────────────────────────────┘`,
+      keyPoints: [
+        "Mensajería Asíncrona con RabbitMQ: Desacoplamiento total entre la recepción del pedido y su ejecución pesada mediante Symfony Messenger, exchanges tipo Topic, colas dedicadas y Dead Letter Queue (DLQ) para reintentos exponenciales.",
+        "Idempotencia y Locks Distribuidos con Redis: Manejo de claves de idempotencia (X-Idempotency-Key) con TTL y semáforos distribuidos (Symfony Lock) para neutralizar peticiones duplicadas o condiciones de carrera en alta concurrencia.",
+        "Caché de Estado Ultrarrápido (<1ms): Los endpoints de polling consultan directamente la clave de estado en Redis devolviendo cabecera 'X-Cache: HIT', con fallback automático y repoblación transparente ante expiración ('X-Cache: MISS').",
+        "Arquitectura Hexagonal & DDD Puro: Dominio rico encapsulado sin dependencias de infraestructura ni de framework; puertos de salida para persistencia, caché y mensajería desacoplados mediante contratos.",
+        "Worker Autónomo Resiliente: Contenedor Docker dedicado ejecutando 'messenger:consume async_orders' permanentemente con reinicio seguro y control de memoria.",
+        "Soporte Vectorial con pgvector: PostgreSQL 16 equipado para almacenar embeddings y realizar búsquedas semánticas por similitud en catálogos de productos.",
+      ],
+    },
+    features: [
+      "Creación asíncrona de pedidos con respuesta HTTP 202 Accepted en menos de 15ms sin bloquear al cliente.",
+      "Broker de mensajería con RabbitMQ (Topic Exchange 'orders_exchange', enrutamiento por topics y DLQ).",
+      "Locks distribuidos y claves de idempotencia con Redis para blindar compras simultáneas duplicadas.",
+      "Consulta instantánea de estado en Redis (<1ms) con cabeceras de trazabilidad 'X-Cache: HIT/MISS'.",
+      "Autenticación segura stateless mediante JWT (firmado RS256 con par de llaves criptográficas) en módulo Auth.",
+      "Worker en segundo plano dedicado con políticas de reintento exponencial y reinicio en caliente (graceful restart).",
+      "Documentación interactiva OpenAPI / Swagger UI autogenerada con API Platform en /api/docs.",
+      "Stack 100% contenerizado con Docker Compose (7 servicios: PHP-FPM, Nginx, Postgres, Redis, RabbitMQ, Worker y Redis Commander).",
+    ],
+    techStack: [
+      {
+        layer: "Message Broker & Colas",
+        tech: "RabbitMQ 3.13 (AMQP 0-9-1)",
+        purpose: "Topic exchanges, colas de procesamiento asíncrono, balanceo de carga y aislamiento de fallos con DLQ.",
+      },
+      {
+        layer: "Caché, Locks & Memoria",
+        tech: "Redis 7 (Alpine)",
+        purpose: "Locks distribuidos (Symfony Lock), control de idempotencia y caché de lectura ultrarrápida (<1ms).",
+      },
+      {
+        layer: "Backend Framework",
+        tech: "Symfony 7.4 + PHP 8.3 FPM",
+        purpose: "Núcleo de la API REST, orquestación con Symfony Messenger, inyección de dependencias y validaciones.",
+      },
+      {
+        layer: "Arquitectura de Software",
+        tech: "Hexagonal Architecture & DDD",
+        purpose: "Separación estricta de Domain, Application e Infrastructure con contratos agnósticos y desacoplamiento.",
+      },
+      {
+        layer: "Base de Datos Relacional & Vectorial",
+        tech: "PostgreSQL 16 + pgvector",
+        purpose: "Almacenamiento ACID transaccional de órdenes, usuarios e índice vectorial para búsqueda semántica.",
+      },
+      {
+        layer: "Seguridad & Auth",
+        tech: "LexikJWTAuthentication (RS256)",
+        purpose: "Autenticación stateless por tokens JWT mediante par de llaves criptográficas pública/privada.",
+      },
+      {
+        layer: "Contenedores & Infraestructura",
+        tech: "Docker + Docker Compose (7 servicios)",
+        purpose: "Orquestación reproducible con PHP-FPM 8.3, Nginx, Postgres, RabbitMQ, Redis, Worker y Redis Commander.",
+      },
+    ],
+    creationNotes: [
+      "Diseñado para resolver el cuello de botella tradicional de pasarelas de pago y operaciones de checkout pesadas, donde las llamadas síncronas bloquean conexiones y agotan recursos de servidor.",
+      "La integración de RabbitMQ para desacoplar el procesamiento asíncrono y Redis para sincronización de locks distribuidos garantiza que ninguna transacción se procese por duplicado incluso bajo alta concurrencia o reintentos de red del cliente.",
+      "La Arquitectura Hexagonal y DDD garantizan que el núcleo de negocio permanezca 100% puro e independiente del broker de mensajería o del motor de persistencia utilizado.",
+    ],
+  },
+  {
     slug: "chat-ia",
     title: "chatIA",
     tagline: "Asistente Corporativo con RAG Híbrido, Tools y WhatsApp Desacoplado",
@@ -606,7 +724,7 @@ export const skills: { category: string; items: string[] }[] = [
   },
   {
     category: "Backend",
-    items: ["Laravel", "Node.js", "APIs REST"],
+    items: ["Laravel", "Symfony", "Node.js", "RabbitMQ", "APIs REST"],
   },
   {
     category: "IA & Automatización",
@@ -623,7 +741,7 @@ export const skills: { category: string; items: string[] }[] = [
   },
   {
     category: "Bases de datos",
-    items: ["MySQL", "MariaDB", "PostgreSQL", "Supabase"],
+    items: ["MySQL", "MariaDB", "PostgreSQL", "Redis", "Supabase"],
   },
   {
     category: "DevOps & Herramientas",
