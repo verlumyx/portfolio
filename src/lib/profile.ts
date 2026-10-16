@@ -24,35 +24,71 @@ export const profile = {
   ],
 };
 
+export type SubProject = {
+  title: string;
+  tech: string;
+  period?: string;
+  bullets: string[];
+};
+
 export type Experience = {
   role: string;
   company: string;
   period: string;
   current?: boolean;
+  description?: string;
   bullets: string[];
+  subProjectsSectionTitle?: string;
+  subProjects?: SubProject[];
 };
 
 export const experience: Experience[] = [
   {
     role: "Desarrollador Full Stack & Líder de Soporte Técnico",
-    company: "Medine.tech",
+    company: "Medine.tech · colab. Pensanomica (Panamá)",
     period: "Nov 2019 — Ago 2026",
+    description:
+      "Desarrollo y optimización del ERP Flexio, plataforma SaaS corporativa en la nube utilizada por más de 100 empresas en Panamá y Latinoamérica en sectores de banca, seguros y automotriz.",
     bullets: [
-      "Desarrollé más de 30 módulos para un sistema ERP utilizado por más de 100 empresas, agilizando procesos operativos y facilitando el trabajo diario de los usuarios.",
-      "Optimicé reportes críticos que tardaban minutos e incluso horas en generarse, reduciendo su tiempo de ejecución a segundos.",
-      "Implementé un sistema de autenticación de dos pasos (2FA), fortaleciendo la seguridad de acceso de toda la plataforma.",
-      "Diseñé y consumí APIs REST para conectar el backend en Laravel con interfaces desarrolladas en Vue.js y React.",
-      "Lideré el área de soporte técnico (equipo de 2 personas), garantizando la resolución de incidencias y la continuidad del servicio.",
-      "Desarrollé una automatización con IA integrando Claude (Anthropic) mediante MCP con distintas herramientas CRM, para evaluar y priorizar casos de soporte de forma automática y reducir el tiempo de respuesta al cliente.",
+      "Arquitecté e implementé +30 módulos del ERP (contabilidad, compras, ventas, inventario, procesos operativos), conectando APIs REST en Symfony y Laravel con interfaces en Vue.js y React.",
+      "Ejecuté optimizaciones profundas de queries y procesamiento batch que redujeron la generación de reportes masivos (+500K registros) de 18 horas a menos de 30 segundos — una mejora de rendimiento de 2,600x que impactó directamente la operación diaria de 100+ empresas.",
+      "Desarrollé un agente de IA (Claude + MCP) al CRM del equipo de soporte que clasifica, prioriza y enruta automáticamente ~300 tickets/mes, reduciendo el tiempo de primera respuesta y liberando capacidad del equipo.",
+      "Lideré un equipo de soporte técnico de 3 personas, asegurando la continuidad del servicio y la resolución de incidencias para una plataforma con 200+ usuarios concurrentes en múltiples servidores.",
+      "Implementé autenticación de dos factores (2FA) para toda la plataforma, fortaleciendo la seguridad de acceso de todos los usuarios corporativos.",
+    ],
+    subProjectsSectionTitle:
+      "Desarrollo de Proyectos Satélite Clave (Next.js & Arquitectura Desacoplada)",
+    subProjects: [
+      {
+        title: "Sistema de Carga Masiva de Facturación",
+        tech: "Next.js · Node.js · REST APIs",
+        period: "Prod. 2022",
+        bullets: [
+          "Desarrollé desde cero una aplicación satélite en Next.js para la creación masiva de miles de facturas electrónicas.",
+          "Construí el pipeline de sincronización e ingesta por lotes contra el core del ERP vía APIs REST, transformando un proceso manual de carga de cientos de facturas al mes en una importación automatizada mediante archivos Excel completada en cuestión de minutos y eliminando fallas de validación manual.",
+        ],
+      },
+      {
+        title: "Portal B2B de Pedidos y Solicitudes de Sucursales",
+        tech: "Next.js · Node.js · REST APIs",
+        period: "Prod. 2023",
+        bullets: [
+          "Desarrollé un portal web distribuido en Next.js para la operativa descentralizada de 55 sucursales comerciales, desacoplando la interacción de los usuarios de tienda del núcleo del ERP.",
+          "Orquesté el flujo integral de emisión, aprobación y trazabilidad de pedidos en tiempo real con Flexio, acelerando el ciclo de despacho y garantizando consistencia transaccional de inventario.",
+        ],
+      },
     ],
   },
   {
-    role: "Desarrollador Full Stack",
-    company: "Corefix",
+    role: "Desarrollador Full Stack (Freelance)",
+    company: "Fractalcore",
     period: "Ene 2023 — Jun 2024",
+    description:
+      "Desarrollo integral end-to-end, como único desarrollador, de 2 plataformas web para organizaciones de asistencia social en México.",
     bullets: [
-      "Desarrollé e implementé 2 plataformas web desde cero: AA México y Plenitud AA.",
-      "Construí el backend con Laravel y el frontend con React, encargándome además del soporte y mantenimiento de ambas plataformas.",
+      "Arquitecté, construí y desplegué desde cero AA México (aamexico.org.mx) y Plenitud AA (plenitudaa.org.mx): backend en Laravel, frontend en React, infraestructura en producción.",
+      "Responsabilidad completa del ciclo de vida del software: levantamiento de requisitos directamente con stakeholders, diseño de arquitectura, desarrollo, despliegue y mantenimiento técnico continuo.",
+      "Ambas plataformas activas en producción con ~50 usuarios, con soporte técnico recurrente post-entrega.",
     ],
   },
 ];
@@ -75,11 +111,11 @@ export const companies: Company[] = [
     logo: "/img/logo-medineTech.png",
     logoBg: "bg-[#020818]",
     description:
-      "Desarrollo de más de 30 módulos para ERP multiempresa (100+ clientes) y automatizaciones de soporte con IA (Claude + MCP).",
+      "Desarrollo del ERP Flexio (+30 módulos, 100+ clientes), proyectos satélite en Next.js y automatizaciones de soporte con IA (Claude + MCP).",
     url: "https://medine.tech",
   },
   {
-    name: "Corefix",
+    name: "Fractalcore",
     role: "Desarrollador Full Stack",
     period: "2023 — 2024",
     logo: "/img/logo-corefix.png",

@@ -10,8 +10,8 @@
 - LinkedIn: https://linkedin.com/in/gibmyx-gomez
 
 ## Experiencia Clave
-- **Medine.tech** (2019 - 2026): Desarrollador Full Stack & Líder de Soporte Técnico. +30 módulos ERP desarrollados para +100 empresas, optimización de reportes de horas a segundos, automatización con Claude + MCP para soporte técnico.
-- **Corefix** (2023 - 2024): Desarrollador Full Stack (AA México y Plenitud AA con Laravel y React).
+- **Medine.tech · colab. Pensanomica** (2019 - 2026): Desarrollador Full Stack & Líder de Soporte Técnico. ERP Flexio (+30 módulos para +100 empresas en banca, seguros y automotriz), optimización 2,600x en reportes (+500K registros de 18h a ~25s), agente IA con Claude + MCP (~300 tickets/mes), proyectos satélite en Next.js (Sistema de Facturación Masiva y Portal B2B para 55 sucursales).
+- **Fractalcore** (2023 - 2024): Desarrollador Full Stack Freelance (AA México y Plenitud AA construidas end-to-end con Laravel y React).
 - **Pensanomica**: Soporte técnico y desarrollo de servicios cloud.
 
 ## Stack Técnico
